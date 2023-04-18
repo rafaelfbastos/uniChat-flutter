@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "282849730345",
+    "project_id": "unichat-970de",
+    "storage_bucket": "unichat-970de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282849730345:android:a4fa36146a50d0b2b52138",
+        "android_client_info": {
+          "package_name": "br.com.rfb.unichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282849730345-ubvjgv8sjjg8nss32dfmvpidqiik50lc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC14yvWRJ6Y9JWSSkaxKotfnqudzdVB-yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282849730345-ubvjgv8sjjg8nss32dfmvpidqiik50lc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
