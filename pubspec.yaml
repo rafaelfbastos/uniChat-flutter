@@ -34,18 +34,18 @@ dependencies:
   mobx: ^2.1.4
   flutter_mobx: ^2.0.6+5
   google_fonts: ^4.0.3
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.10.0
+  animated_text_kit: ^4.2.2
+  firebase_auth: ^4.4.2
+  asuka: ^2.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mobx_codegen: ^2.2.0
   build_runner: ^2.3.3
-  animated_text_kit: ^4.2.2
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
