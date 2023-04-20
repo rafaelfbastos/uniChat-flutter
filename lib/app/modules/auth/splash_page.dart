@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
+import 'package:unichat/app/core/auth/auth_store.dart';
 import 'package:unichat/app/core/ui/theme_extension.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  final AuthStore _authStore;
+
+  const SplashPage({Key? key, required AuthStore authStore})
+      : _authStore = authStore,
+        super(key: key);
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -13,14 +19,25 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        
-        Future.delayed(Duration(milliseconds: 3000), () {
-            Modular.to.pushNamedAndRemoveUntil("/auth/login", (p0) => false);
-});
+    reaction((_) => widget._authStore.currentUser, (user) {
+      if (user != null) {
+        Modular.to.pushNamedAndRemoveUntil("/home", (p0) => false);
+      } else {
+        Modular.to.pushNamedAndRemoveUntil("/auth/login", (p0) => false);
+      }
     });
-    
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        widget._authStore.loadUser();
+        if (widget._authStore.currentUser != null) {
+          Modular.to.pushNamedAndRemoveUntil("/home", (p0) => false);
+        } else {
+          Modular.to.pushNamedAndRemoveUntil("/auth/login", (p0) => false);
+        }
+      });
+    });
+
     super.initState();
   }
 
@@ -42,7 +59,8 @@ class _SplashPageState extends State<SplashPage> {
                 child: AnimatedTextKit(
                   repeatForever: true,
                   animatedTexts: [
-                    TyperAnimatedText('UniChat',speed: const Duration(milliseconds: 100)),
+                    TyperAnimatedText('UniChat',
+                        speed: const Duration(milliseconds: 100)),
                   ],
                 ))
           ],

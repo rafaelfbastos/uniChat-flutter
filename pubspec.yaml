@@ -39,6 +39,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   firebase_auth: ^4.4.2
   asuka: ^2.0.2
+  validatorless: ^1.2.3
 
 dev_dependencies:
   flutter_test:

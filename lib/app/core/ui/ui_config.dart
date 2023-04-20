@@ -7,10 +7,13 @@ class UiConfig {
   static String get title => "UniChat";
 
   static ThemeData get theme => ThemeData(
-    primaryColor: const Color(0xffE42E2E),
-    textTheme: GoogleFonts.interTextTheme(),
-    appBarTheme: const AppBarTheme(
-      backgroundColor:Color(0xffE42E2E)
-    )
-  );
+        primaryColor: const Color(0xffE42E2E),
+        textTheme: GoogleFonts.interTextTheme(),
+        appBarTheme: const AppBarTheme(backgroundColor: Color(0xffE42E2E)),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xffE42E2E),
+          ),
+        ),
+      );
 }
