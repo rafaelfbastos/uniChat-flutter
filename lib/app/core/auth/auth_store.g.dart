@@ -25,6 +25,30 @@ mixin _$AuthStore on AuthStoreBase, Store {
     });
   }
 
+  late final _$userModelAtom =
+      Atom(name: 'AuthStoreBase.userModel', context: context);
+
+  @override
+  UserModel? get userModel {
+    _$userModelAtom.reportRead();
+    return super.userModel;
+  }
+
+  @override
+  set userModel(UserModel? value) {
+    _$userModelAtom.reportWrite(value, super.userModel, () {
+      super.userModel = value;
+    });
+  }
+
+  late final _$loadUserModelAsyncAction =
+      AsyncAction('AuthStoreBase.loadUserModel', context: context);
+
+  @override
+  Future loadUserModel() {
+    return _$loadUserModelAsyncAction.run(() => super.loadUserModel());
+  }
+
   late final _$AuthStoreBaseActionController =
       ActionController(name: 'AuthStoreBase', context: context);
 
@@ -42,7 +66,8 @@ mixin _$AuthStore on AuthStoreBase, Store {
   @override
   String toString() {
     return '''
-currentUser: ${currentUser}
+currentUser: ${currentUser},
+userModel: ${userModel}
     ''';
   }
 }

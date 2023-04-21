@@ -40,6 +40,8 @@ dependencies:
   firebase_auth: ^4.4.2
   asuka: ^2.0.2
   validatorless: ^1.2.3
+  cloud_firestore: ^4.5.2
+  random_avatar: ^0.0.8
 
 dev_dependencies:
   flutter_test:

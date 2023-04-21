@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:unichat/app/core/widgets/loader.dart';
 import 'package:unichat/app/core/widgets/messages.dart';
+import 'package:unichat/app/models/user_model.dart';
 import 'package:unichat/app/services/user_service_impl.dart';
 import '../../../core/exceptions/auth_exception.dart';
 part 'login_store.g.dart';
@@ -57,5 +58,11 @@ abstract class LoginStoreBase with Store {
     } finally {
       Loader.hide();
     }
+  }
+
+  completeProfile(UserModel user) async {
+    Loader.show();
+    await _userService.saveUser(user);
+    Loader.hide();
   }
 }

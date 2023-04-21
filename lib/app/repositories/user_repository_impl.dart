@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
+import 'package:unichat/app/models/user_model.dart';
 
 import 'package:unichat/app/repositories/user_repository.dart';
 
@@ -8,10 +9,12 @@ import '../core/exceptions/auth_exception.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final FirebaseAuth _firebaseAuth;
-
-  UserRepositoryImpl({
-    required FirebaseAuth firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth;
+  final FirebaseFirestore _firestore;
+  UserRepositoryImpl(
+      {required FirebaseAuth firebaseAuth,
+      required FirebaseFirestore firestore})
+      : _firebaseAuth = firebaseAuth,
+        _firestore = firestore;
 
   @override
   Future<User?> login(String email, String password) async {
@@ -60,6 +63,9 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final userCredencial = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      final user = UserModel(email: email);
+      await saveUser(user);
       return userCredencial.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
@@ -72,5 +78,17 @@ class UserRepositoryImpl implements UserRepository {
         AuthException(message: "Erro ao cadastrar:");
       }
     }
+  }
+
+  @override
+  Future<void> saveUser(UserModel user) async {
+    await _firestore.collection("users").doc(user.email).set(user.toMap());
+  }
+
+  @override
+  Future<UserModel?> loadUser(String email) async {
+    final doc = await _firestore.collection("users").doc(email).get();
+    final data = doc.data();
+    return (data != null) ? UserModel.fromMap(data) : null;
   }
 }

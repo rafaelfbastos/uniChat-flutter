@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
+import 'package:unichat/app/models/user_model.dart';
 
 import '../../services/user_service.dart';
 part 'auth_store.g.dart';
@@ -23,13 +24,27 @@ abstract class AuthStoreBase with Store {
   @observable
   User? currentUser;
 
+  @observable
+  UserModel? userModel;
+
   Future<void> logout() async {
     _userService.logout();
-    loadUser();
   }
 
   @action
   loadUser() {
     currentUser = _firebaseAuth.currentUser;
+  }
+
+  @action
+  loadUserModel() async {
+    if (currentUser != null) {
+      userModel = await _userService.loadUser(currentUser!.email!);
+    }
+  }
+
+  loadUsers() {
+    loadUser();
+    loadUserModel();
   }
 }

@@ -6,11 +6,14 @@ class SimpleTextForm extends StatelessWidget {
   final String label;
   final String? hintText;
   final FormFieldValidator<String>? validator;
-
+  final bool? readOnly;
+  final bool? enabled;
   const SimpleTextForm(
       {Key? key,
       required this.controller,
       required this.label,
+      this.readOnly,
+      this.enabled,
       this.validator,
       this.hintText})
       : super(key: key);
@@ -18,6 +21,8 @@ class SimpleTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
+      readOnly: readOnly ?? false,
       style: TextStyle(color: context.primaryColor),
       validator: validator,
       controller: controller,

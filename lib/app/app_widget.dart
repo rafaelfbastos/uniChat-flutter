@@ -12,6 +12,7 @@ class AppWidget extends StatelessWidget {
     Modular.setObservers([Asuka.asukaHeroController]);
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: UiConfig.title,
       builder: Asuka.builder,
       theme: UiConfig.theme,
