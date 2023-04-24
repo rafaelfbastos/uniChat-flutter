@@ -27,7 +27,8 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
 
   @override
   void initState() {
-    reaction((p0) => controller.userModel, (userModel) {
+    final userModelDisposer =
+        reaction((p0) => controller.userModel, (userModel) {
       if (userModel?.nickName == "") {
         Modular.to.pushNamedAndRemoveUntil(
             "/auth/complete-profile", (_) => false,
@@ -40,20 +41,29 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       }
     });
 
+    final geoBlockDisposer = reaction((p0) => controller.geoBlock, (geoblock) {
+      if (geoblock) {
+        Modular.to.pushNamedAndRemoveUntil("/home", (_) => false);
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<AuthStore>().loadUserModel();
+      await controller.timer();
       if (controller.userModel?.nickName == "") {
         Modular.to.pushNamedAndRemoveUntil(
             "/auth/complete-profile", (_) => false,
             arguments: controller.userModel);
       }
     });
+    toDispose.addAll([geoBlockDisposer, userModelDisposer]);
 
     super.initState();
   }
 
   @override
   void dispose() {
+    toDispose.map((e) => e);
     nomeEC.dispose();
     temaEC.dispose();
     super.dispose();
@@ -143,6 +153,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5),
                                 child: ListTile(
+                                    enabled: controller.geoBlock,
                                     onTap: () => controller.setUserChat(e.name),
                                     tileColor:
                                         context.primaryColor.withAlpha(40),

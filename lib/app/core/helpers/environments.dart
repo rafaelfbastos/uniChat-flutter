@@ -11,16 +11,16 @@ class Environments {
     return FirebaseRemoteConfig.instance.getBool(paramName);
   }
 
+  static double? doubleParam(String paramName) {
+    return FirebaseRemoteConfig.instance.getDouble(paramName);
+  }
+
   static loadEnvs() async {
     final remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
       minimumFetchInterval: const Duration(seconds: 10),
     ));
-
-    await remoteConfig.setDefaults(const {
-      "censor": false,
-    });
 
     await remoteConfig.fetchAndActivate();
   }

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:unichat/app/models/chat_room_model.dart';
 import 'package:unichat/app/models/user_model.dart';
+import 'package:unichat/app/core/location/location.dart';
 
 import '../../core/auth/auth_store.dart';
 import '../../services/user_service_impl.dart';
@@ -13,6 +16,9 @@ abstract class HomeStoreBase with Store {
   final AuthStore _authStore;
   final FirebaseFirestore _firestore;
   final UserServiceImpl _userService;
+
+  @observable
+  bool geoBlock = false;
 
   @observable
   var mensages = <ChatRoomModel>{}.asObservable();
@@ -49,4 +55,16 @@ abstract class HomeStoreBase with Store {
   }
 
   UserModel? get userModel => _authStore.userModel;
+
+  @action
+  loadGeoBlock() async {
+    geoBlock = await Location.geoBlock();
+  }
+
+  timer() {
+    loadGeoBlock();
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      loadGeoBlock();
+    });
+  }
 }

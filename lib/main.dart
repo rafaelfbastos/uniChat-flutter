@@ -5,7 +5,7 @@ import 'package:unichat/app/app_widget.dart';
 import 'package:unichat/app/core/application_config.dart';
 
 Future<void> main() async {
-  ApplicationConfig().configureApp;
+  await ApplicationConfig().configureApp();
 
   runApp(ModularApp(module: AppModule(), child: const AppWidget()));
 }

@@ -47,6 +47,7 @@ dependencies:
   awesome_dialog: ^3.0.2
   profanity_filter: ^2.0.0
   firebase_remote_config: ^4.0.1
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
