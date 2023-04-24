@@ -64,6 +64,17 @@ mixin _$AuthStore on AuthStoreBase, Store {
   }
 
   @override
+  dynamic updateUserChat(String chat) {
+    final _$actionInfo = _$AuthStoreBaseActionController.startAction(
+        name: 'AuthStoreBase.updateUserChat');
+    try {
+      return super.updateUserChat(chat);
+    } finally {
+      _$AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentUser: ${currentUser},

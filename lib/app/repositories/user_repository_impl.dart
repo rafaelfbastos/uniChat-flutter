@@ -91,4 +91,9 @@ class UserRepositoryImpl implements UserRepository {
     final data = doc.data();
     return (data != null) ? UserModel.fromMap(data) : null;
   }
+
+  @override
+  Future<void> userUpdateUs(UserModel user, Map<String, dynamic> map) async {
+    await _firestore.collection("users").doc(user.email).update(map);
+  }
 }

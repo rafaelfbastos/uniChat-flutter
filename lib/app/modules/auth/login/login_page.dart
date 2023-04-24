@@ -34,113 +34,118 @@ class _LoginPageState extends ModularState<LoginPage, LoginStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 80,
-          ),
-          const UnichatLogo(),
-          const SizedBox(
-            height: 20,
-          ),
-          Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: IntrinsicHeight(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 80,
+              ),
+              const UnichatLogo(),
+              const SizedBox(
+                height: 20,
+              ),
+              Form(
+                key: formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Acessar:",
+                        style: TextStyle(
+                            color: Color(0xff797979),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SimpleTextForm(
+                        controller: emailEC,
+                        label: "e-mail",
+                        validator: Validatorless.multiple([
+                          Validatorless.required("digite e-mail"),
+                          Validatorless.email("digite e-mail válido")
+                        ]),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      PasswordTextForm(
+                        controller: passwordEC,
+                        label: "senha",
+                        validator: Validatorless.multiple(
+                            [Validatorless.required("digite a senha")]),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text(
-                    "Acessar:",
-                    style: TextStyle(
-                        color: Color(0xff797979),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SimpleTextForm(
-                    controller: emailEC,
-                    label: "e-mail",
-                    validator: Validatorless.multiple([
-                      Validatorless.required("digite e-mail"),
-                      Validatorless.email("digite e-mail válido")
-                    ]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  PasswordTextForm(
-                    controller: passwordEC,
-                    label: "senha",
-                    validator: Validatorless.multiple(
-                        [Validatorless.required("digite a senha")]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  TextButton(
+                      onPressed: (() {
+                        Modular.to.pushNamed("/auth/reset-password");
+                      }),
+                      child: const Text("Esqueceu a senha?")),
+                  ElevatedButton(
+                    onPressed: (() async {
+                      final formValid =
+                          formKey.currentState?.validate() ?? false;
+                      if (formValid) {
+                        controller.logar(emailEC.text, passwordEC.text);
+                        FocusScope.of(context).unfocus();
+                      }
+                    }),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: context.primaryColor),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
                 ],
               ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                  onPressed: (() {
-                    Modular.to.pushNamed("/auth/reset-password");
-                  }),
-                  child: const Text("Esqueceu a senha?")),
-              ElevatedButton(
-                onPressed: (() async {
-                  final formValid = formKey.currentState?.validate() ?? false;
-                  if (formValid) {
-                    controller.logar(emailEC.text, passwordEC.text);
-                    FocusScope.of(context).unfocus();
-                  }
-                }),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: context.primaryColor),
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xffE42E2E).withAlpha(50),
+                    border: Border(
+                      top: BorderSide(
+                        width: 2,
+                        color: const Color(0xffE42E2E).withOpacity(0.2),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Não tem conta?"),
+                      TextButton(
+                          onPressed: (() {
+                            Navigator.of(context).pushNamed("/auth/register");
+                          }),
+                          child: const Text("Cadastre-se"))
+                    ],
                   ),
                 ),
               )
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xffE42E2E).withAlpha(50),
-                border: Border(
-                  top: BorderSide(
-                    width: 2,
-                    color: const Color(0xffE42E2E).withOpacity(0.2),
-                  ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Não tem conta?"),
-                  TextButton(
-                      onPressed: (() {
-                        Navigator.of(context).pushNamed("/auth/register");
-                      }),
-                      child: const Text("Cadastre-se"))
-                ],
-              ),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

@@ -43,6 +43,12 @@ abstract class AuthStoreBase with Store {
     }
   }
 
+  @action
+  updateUserChat(String chat) {
+    userModel = userModel?.copyWith(chatOpen: chat);
+    _userService.userUpdateUs(userModel!, {'chatOpen': chat});
+  }
+
   loadUsers() {
     loadUser();
     loadUserModel();

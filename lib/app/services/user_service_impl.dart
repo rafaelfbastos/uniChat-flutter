@@ -32,4 +32,8 @@ class UserServiceImpl implements UserService {
 
   @override
   Future<void> saveUser(UserModel user) => _repository.saveUser(user);
+
+  @override
+  Future<void> userUpdateUs(UserModel user, Map<String, dynamic> map) =>
+      _repository.userUpdateUs(user, map);
 }

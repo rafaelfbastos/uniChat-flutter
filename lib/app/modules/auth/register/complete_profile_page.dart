@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:unichat/app/core/auth/auth_store.dart';
-import 'package:unichat/app/core/helpers/avatar_const.dart';
+import 'package:unichat/app/core/helpers/global_const.dart';
 import 'package:unichat/app/core/ui/theme_extension.dart';
 import 'package:unichat/app/core/widgets/simple_text_form.dart';
 import 'package:unichat/app/models/user_model.dart';
@@ -26,7 +26,7 @@ class _CompleteProfilePageState
   final nameEC = TextEditingController();
   final cursoEC = TextEditingController();
   final avatarVN =
-      ValueNotifier<String>(AvatarConst.avatars[Random().nextInt(45)]);
+      ValueNotifier<String>(GlobalConst.avatars[Random().nextInt(45)]);
   final formKey = GlobalKey<FormState>();
   bool compulsory = false;
 
@@ -54,7 +54,7 @@ class _CompleteProfilePageState
         ),
         content: SingleChildScrollView(
           child: Wrap(
-            children: AvatarConst.avatars
+            children: GlobalConst.avatars
                 .map((e) => Padding(
                       padding: const EdgeInsets.all(5),
                       child: GestureDetector(

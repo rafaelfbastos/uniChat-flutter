@@ -28,11 +28,9 @@ class _SplashPageState extends State<SplashPage> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(const Duration(milliseconds: 3000), () {
-        widget._authStore.loadUsers();
-        if (widget._authStore.currentUser != null) {
-          Modular.to.pushNamedAndRemoveUntil("/home", (p0) => false);
-        } else {
+      Future.delayed(const Duration(milliseconds: 3000), () async {
+        await widget._authStore.loadUserModel();
+        if (widget._authStore.currentUser == null) {
           Modular.to.pushNamedAndRemoveUntil("/auth/login", (p0) => false);
         }
       });

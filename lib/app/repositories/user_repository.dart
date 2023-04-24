@@ -8,4 +8,5 @@ abstract class UserRepository {
   Future<void> logout();
   Future<void> saveUser(UserModel user);
   Future<UserModel?> loadUser(String email);
+  Future<void> userUpdateUs(UserModel user, Map<String, dynamic> map);
 }

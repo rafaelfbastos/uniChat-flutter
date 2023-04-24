@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.rfb.unichat">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="UniChat"
         android:name="${applicationName}"
