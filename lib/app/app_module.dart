@@ -10,8 +10,8 @@ import 'package:unichat/app/services/user_service_impl.dart';
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.lazySingleton((i) => FirebaseAuth.instance),
-        Bind.lazySingleton((i) => FirebaseFirestore.instance),
+        Bind.singleton((i) => FirebaseAuth.instance),
+        Bind.singleton((i) => FirebaseFirestore.instance),
         Bind((i) => UserRepositoryImpl(firebaseAuth: i(), firestore: i())),
         Bind((i) => UserServiceImpl(repository: i())),
         Bind((i) => AuthStore(firebaseAuth: i(), userService: i()))

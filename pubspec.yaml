@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.10.0
   animated_text_kit: ^4.2.2
   firebase_auth: ^4.4.2
-  asuka: ^2.0.2
+  asuka: ^2.1.0
   validatorless: ^1.2.3
   cloud_firestore: ^4.5.2
   random_avatar: ^0.0.8
