@@ -17,6 +17,11 @@ abstract class ChatStoreBase with Store {
   @observable
   var mensages = <ChatMenssageModel>{}.asObservable();
 
+  @observable
+  var users = <UserModel>{}.asObservable();
+
+
+
   ChatStoreBase({
     required AuthStore authStore,
     required FirebaseFirestore firestore,
@@ -29,7 +34,8 @@ abstract class ChatStoreBase with Store {
   startStream() {
     final Timestamp limiteInferior =
         Timestamp.fromDate(DateTime.now().subtract(const Duration(days: 7)));
-
+    final chat = _authStore.userModel!.chatOpen;
+   
     _firestore
         .collection("chat-room")
         .doc(_authStore.userModel?.chatOpen)
@@ -42,6 +48,18 @@ abstract class ChatStoreBase with Store {
         mensages.add(ChatMenssageModel.fromMap(doc.data()));
       }
     });
+
+    _firestore
+        .collection("users")
+        .where("chatOpen", isEqualTo: chat)
+        .snapshots()
+        .listen((event) {
+      for (var doc in event.docs) {
+        users.add(UserModel.fromMap(doc.data()));
+      }
+    });
+    
+
   }
 
   @computed

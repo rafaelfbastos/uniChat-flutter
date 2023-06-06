@@ -7,6 +7,7 @@ import 'package:unichat/app/models/user_model.dart';
 import 'package:unichat/app/core/location/location.dart';
 
 import '../../core/auth/auth_store.dart';
+import '../../models/chat_private_model.dart';
 import '../../services/user_service_impl.dart';
 part 'home_store.g.dart';
 
@@ -15,7 +16,7 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 abstract class HomeStoreBase with Store {
   final AuthStore _authStore;
   final FirebaseFirestore _firestore;
-  final UserServiceImpl _userService;
+ 
 
   @observable
   bool geoBlock = false;
@@ -23,13 +24,16 @@ abstract class HomeStoreBase with Store {
   @observable
   var mensages = <ChatRoomModel>{}.asObservable();
 
+ @observable
+  var privateChats = <ChatPrivateModel>{}.asObservable();
+
   HomeStoreBase({
     required AuthStore authStore,
     required FirebaseFirestore firestore,
     required UserServiceImpl userService,
   })  : _authStore = authStore,
-        _firestore = firestore,
-        _userService = userService {
+        _firestore = firestore
+         {
     startStream();
   }
 
@@ -44,6 +48,8 @@ abstract class HomeStoreBase with Store {
         mensages.add(ChatRoomModel.fromMap(doc.data()));
       }
     });
+
+   
   }
 
   setUserChat(String chat) {

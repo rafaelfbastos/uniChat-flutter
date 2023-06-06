@@ -41,6 +41,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$privateChatsAtom =
+      Atom(name: 'HomeStoreBase.privateChats', context: context);
+
+  @override
+  ObservableSet<ChatPrivateModel> get privateChats {
+    _$privateChatsAtom.reportRead();
+    return super.privateChats;
+  }
+
+  @override
+  set privateChats(ObservableSet<ChatPrivateModel> value) {
+    _$privateChatsAtom.reportWrite(value, super.privateChats, () {
+      super.privateChats = value;
+    });
+  }
+
   late final _$loadGeoBlockAsyncAction =
       AsyncAction('HomeStoreBase.loadGeoBlock', context: context);
 
@@ -67,7 +83,8 @@ mixin _$HomeStore on HomeStoreBase, Store {
   String toString() {
     return '''
 geoBlock: ${geoBlock},
-mensages: ${mensages}
+mensages: ${mensages},
+privateChats: ${privateChats}
     ''';
   }
 }

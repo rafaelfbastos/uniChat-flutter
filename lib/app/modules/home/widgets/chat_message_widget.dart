@@ -18,7 +18,7 @@ class ChatMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final send = (message.user == user);
+    final send = (message.user.email == user.email);
     final filter = ProfanityFilter.filterAdditionally(GlobalConst.censorWords);
 
     _showProfile(UserModel u) {

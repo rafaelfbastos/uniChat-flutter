@@ -32,6 +32,21 @@ mixin _$ChatStore on ChatStoreBase, Store {
     });
   }
 
+  late final _$usersAtom = Atom(name: 'ChatStoreBase.users', context: context);
+
+  @override
+  ObservableSet<UserModel> get users {
+    _$usersAtom.reportRead();
+    return super.users;
+  }
+
+  @override
+  set users(ObservableSet<UserModel> value) {
+    _$usersAtom.reportWrite(value, super.users, () {
+      super.users = value;
+    });
+  }
+
   late final _$ChatStoreBaseActionController =
       ActionController(name: 'ChatStoreBase', context: context);
 
@@ -50,6 +65,7 @@ mixin _$ChatStore on ChatStoreBase, Store {
   String toString() {
     return '''
 mensages: ${mensages},
+users: ${users},
 lastIndex: ${lastIndex}
     ''';
   }

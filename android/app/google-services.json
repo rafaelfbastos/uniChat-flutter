@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "282849730345-2r5k2e36jn5gf8m1dn8a3n62rojf3rhu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.rfb.unichat",
+            "certificate_hash": "e74799e24699168de7f2f7a28c38dc70033a8396"
+          }
+        },
+        {
           "client_id": "282849730345-5eu0ltoeorldtruq4flsu4bvltjbujfr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

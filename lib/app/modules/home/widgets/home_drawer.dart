@@ -58,6 +58,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
         ),
         ListTile(
+          onTap: () => Modular.to.pushNamed("/dm",
+              arguments: authStore.userModel),
+          leading: const Icon(Icons.chat),
+          title: const Text(
+            "DMs",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        ListTile(
           onTap: () => authStore.logout(),
           leading: const Icon(Icons.logout_rounded),
           title: const Text(
@@ -67,7 +79,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        )
+        ),
       ]),
     );
   }

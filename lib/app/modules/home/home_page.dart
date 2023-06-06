@@ -54,6 +54,8 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
         Modular.to.pushNamedAndRemoveUntil(
             "/auth/complete-profile", (_) => false,
             arguments: controller.userModel);
+      }else if(controller.userModel?.chatOpen != ""){
+        Modular.to.pushNamedAndRemoveUntil("/chat", (_) => false);
       }
     });
     toDispose.addAll([geoBlockDisposer, userModelDisposer]);

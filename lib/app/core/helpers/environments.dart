@@ -17,10 +17,12 @@ class Environments {
 
   static loadEnvs() async {
     final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(seconds: 10),
-    ));
+   await remoteConfig.setDefaults(const {
+    "censor": true,
+    "center_latitude": -12.937362312338534,
+    "center_longitude": -38.40969907487264,
+    "geo_block": true,
+});
 
     await remoteConfig.fetchAndActivate();
   }

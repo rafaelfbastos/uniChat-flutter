@@ -1,11 +1,15 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:unichat/app/core/ui/theme_extension.dart';
 import 'package:unichat/app/modules/home/chat/chat_store.dart';
 import 'package:unichat/app/modules/home/widgets/chat_message_widget.dart';
+
+import '../../../models/user_model.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -44,25 +48,112 @@ class _ChatPageState extends ModularState<ChatPage, ChatStore> {
 
   @override
   Widget build(BuildContext context) {
+    
+    _showProfile(UserModel u) {
+      AwesomeDialog(
+        context: context,
+        customHeader: RandomAvatar(u.avatar),
+        animType: AnimType.rightSlide,
+        btnOkOnPress: (){
+          if(u!=store.user){
+            Navigator.of(context).popAndPushNamed("/chat-private",arguments: [store.user,u]);
+          }
+        },
+        btnOkText: "Chat Privado",
+        body: Column(children: [
+          Text(
+            u.nickName,
+            style: TextStyle(
+                color: context.primaryColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            u.name,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            u.curso,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ]),
+      ).show();
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: (() {
-            controller.exitChat();
-          }),
-          icon: ClipOval(
-              child: Container(
-            padding: const EdgeInsets.all(8),
-            color: context.primaryColor.withAlpha(10),
-            child: Icon(
-              Icons.logout_outlined,
-              size: 20,
-              color: context.primaryColor,
-            ),
-          )),
+      drawer: Drawer(
+          child: Observer(
+        builder: (context) => Column(
+          children: [
+            DrawerHeader(
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                decoration:
+                    BoxDecoration(color: context.primaryColor.withAlpha(30)),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Usuários',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                )),
+            ...store.users
+                .map(
+                  (e) => ListTile(
+                    leading: const Icon(
+                      FontAwesomeIcons.solidCircle,
+                      color: Colors.green,
+                      size: 15,
+                    ),
+                    title: Text(
+                      e.nickName,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    onTap: ()=> _showProfile(e),
+                  ),
+                )
+                .toList()
+          ],
         ),
+      )),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: context.primaryColor),
+        backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: (() {
+              controller.exitChat();
+            }),
+            icon: ClipOval(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                color: context.primaryColor.withAlpha(10),
+                child: Icon(
+                  Icons.logout_outlined,
+                  size: 20,
+                  color: context.primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ],
         title: Text(
           controller.chatName.toUpperCase(),
           style: TextStyle(
